@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Simplified Github Homepage
 // @namespace    http://tampermonkey.net/
-// @version      0.0.2
+// @version      0.0.3
 // @description  Hide useless components and only display my repos on Github homepage
 // @author       akiyiwen
 // @match        https://github.com/
@@ -31,18 +31,18 @@
             display: none;
         }
         /* Center and change size of sidebar */
-        aside {
+        aside.feed-left-sidebar {
             margin: 20px auto;
             border-radius: 5px;
             width: 768px;
             height: fit-content;
         }
         /* Unset sidebar innter container min height */
-        aside div.dashboard-sidebar {
+        aside.feed-left-sidebar div.dashboard-sidebar {
             min-height: unset;
         }
         /* Repo list */
-        aside li[data-component='ActionList.Group'] ul {
+        aside.feed-left-sidebar li[data-component='ActionList.Group'] ul {
             max-height: 512px;
             overflow-y: scroll;
             display: flex;
@@ -52,13 +52,13 @@
             gap: 20px 5px;
         }
         /* Repo item outer container */
-        aside li[data-component='ActionList.Item'] {
+        aside.feed-left-sidebar li[data-component='ActionList.Item'] {
             flex: 0 0 22%;
             height: 75px;
             border-radius: 5px;
         }
         /* Repo item inner container */
-        aside li[data-component='ActionList.Item']>a {
+        aside.feed-left-sidebar li[data-component='ActionList.Item']>a {
             height: 100%;
             display: flex;
             flex-direction: row-reverse;
@@ -67,12 +67,12 @@
             gap: 5px;
         }
         /* Repo search bar */
-        aside li[class*='searchInputWrapper'] {
+        aside.feed-left-sidebar li[class*='searchInputWrapper'] {
             width: 100%;
         }
     `);
     setTimeout(() => {
         // Click the "show more" button
-        document.querySelector("aside button[data-testid='dynamic-side-panel-items-show-more']")?.click();
+        document.querySelector("aside.feed-left-sidebar button[data-testid='dynamic-side-panel-items-show-more']")?.click();
     }, 2048);
 })();
