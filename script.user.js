@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Simplified Github Homepage
 // @namespace    http://tampermonkey.net/
-// @version      0.0.1
+// @version      0.0.2
 // @description  Hide useless components and only display my repos on Github homepage
 // @author       akiyiwen
 // @match        https://github.com/
@@ -26,45 +26,53 @@
         div.feed-background {
             min-height: 0!important;
         }
-        div.application-main div.feed-background>div {
+        /* Hide feed details, sidebar first section, sidebar divider */
+        div.application-main div.feed-background>div, div.top-0>div:first-child, div.top-0>hr {
             display: none;
         }
-        aside.feed-left-sidebar {
+        /* Center and change size of sidebar */
+        aside {
             margin: 20px auto;
             border-radius: 5px;
             width: 768px;
-            height: 768px;
+            height: fit-content;
         }
-        div.js-repos-container ul {
+        /* Unset sidebar innter container min height */
+        aside div.dashboard-sidebar {
+            min-height: unset;
+        }
+        /* Repo list */
+        aside li[data-component='ActionList.Group'] ul {
             max-height: 512px;
-            overflow: auto;
+            overflow-y: scroll;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            align-items: flex-start;
-            gap: 5px;
+            align-items: center;
+            gap: 20px 5px;
         }
-        div.js-repos-container ul li {
-            flex: 0 0 24%;
+        /* Repo item outer container */
+        aside li[data-component='ActionList.Item'] {
+            flex: 0 0 22%;
             height: 75px;
             border-radius: 5px;
         }
-        div.js-repos-container ul li>div {
+        /* Repo item inner container */
+        aside li[data-component='ActionList.Item']>a {
             height: 100%;
             display: flex;
-            flex-direction: row;
+            flex-direction: row-reverse;
             align-items: center;
             margin: 0!important;
-            padding: 1em;
+            gap: 5px;
         }
-        div.js-repos-container ul li.private {
-            background-color: #644044;
-        }
-        div.js-repos-container ul li.public {
-            background-color: #3d444d;
+        /* Repo search bar */
+        aside li[class*='searchInputWrapper'] {
+            width: 100%;
         }
     `);
     setTimeout(() => {
-        document.querySelector("div.js-repos-container button")?.click();
+        // Click the "show more" button
+        document.querySelector("aside button[data-testid='dynamic-side-panel-items-show-more']")?.click();
     }, 2048);
 })();
